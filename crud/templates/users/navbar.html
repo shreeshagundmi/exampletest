@@ -1,0 +1,47 @@
+<style>
+  .hello-msg{
+    font-size: 18px;
+    color: #fff;
+    margin-right: 20px;
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">2AM Project</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" href="{% url 'home' %}">Dashboard <span class="sr-only">(current)</span></a>
+        
+        <!-- Options based on user role-->
+        {% if request.user.isAppAdmin %}
+          <a class="nav-link" href="{% url 'client:client-list' %}">Client Management</a>
+        {% endif %}
+        
+        {% if request.user.isClientAdmin %}
+          <a class="nav-link" href="{% url 'client:branch-list' %}">Branch Management</a>
+        {% endif %}
+      </div>
+    </div>
+
+    {%if request.user %}
+      <span class="hello-msg">Hello, <a href="{% url 'user_profile' %}">{{request.user}}</a></span>
+      <span><a href="{% url 'logout' %}"> Logout</a></span>
+    
+    {% endif %}          
+
+  </nav>
+<p>
+  
+  {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <p id="messages">{{message}}</p>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  {% endfor %}
+
+</p>  
